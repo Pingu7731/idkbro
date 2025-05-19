@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -8,6 +11,9 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+
+  File ? returnedImage;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -22,7 +28,9 @@ class _HomepageState extends State<Homepage> {
                 style: ButtonStyle(
                   minimumSize: WidgetStatePropertyAll(const Size(200, 50)),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  pickimage();
+                },
                 child: const Text("Pick From Gallery"),
               ),
               const SizedBox(height: 16),
@@ -30,7 +38,9 @@ class _HomepageState extends State<Homepage> {
                 style: ButtonStyle(
                   minimumSize: WidgetStatePropertyAll(const Size(200, 50)),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  pickFromCamera();
+                },
                 child: const Text("Pick From Camera"),
               ),
               const SizedBox(height: 16),
@@ -57,10 +67,41 @@ class _HomepageState extends State<Homepage> {
                 onPressed: () {},
                 child: const Text("Get Location"),
               ),
+              const SizedBox(height: 50),
+              
+              //showa image 
+              //on tap will remove img
+              returnedImage != null? GestureDetector(onTap: removeimg,child: Image.file(returnedImage!,height: 200,),) : //see isit null
+              const Text(""),
+
             ],
           ),
         ),
       ),
     );
   }
+Future pickimage() async{
+  final userImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+  
+  if (userImage==null){
+    return;
+  }
+  setState((){
+    returnedImage= File(userImage!.path);
+  });
+}
+
+Future pickFromCamera() async{
+  final userImage = await ImagePicker().pickImage(source: ImageSource.camera);
+  
+  setState((){
+    returnedImage= File(userImage!.path);
+  });
+}
+
+void removeimg(){
+  setState(() {
+    returnedImage=null;
+  });
+}
 }
