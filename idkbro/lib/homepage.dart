@@ -71,7 +71,7 @@ class _HomepageState extends State<Homepage> {
               
               //showa image 
               //on tap will remove img
-              returnedImage != null? GestureDetector(onTap: removeimg,child: Image.file(returnedImage!,height: 200,),) : //see isit null
+              returnedImage != null? GestureDetector(onTap: removeImg,child: Image.file(returnedImage!,height: 200,),) : //see isit null
               const Text(""),
 
             ],
@@ -99,7 +99,7 @@ Future pickFromCamera() async{
   });
 }
 
-void removeimg(){
+void removeImg(){
   setState(() {
     returnedImage=null;
   });
