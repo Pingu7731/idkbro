@@ -50,7 +50,8 @@ class _DeviceInfoState extends State<DeviceInfo> {
           final info = snapshot.data!;
           return Padding(
             padding: const EdgeInsets.all(16.0),
-            child: ListView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 buildInfoRow("Brand", info.brand),
                 buildInfoRow("Model", info.model),
@@ -74,7 +75,7 @@ class _DeviceInfoState extends State<DeviceInfo> {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Text(
         "$label: $value",
-        style: const TextStyle(fontSize: 18, color: Colors.white),
+        style: const TextStyle(fontSize: 20, color: Colors.white),
       ),
     );
   }
