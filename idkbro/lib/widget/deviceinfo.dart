@@ -39,13 +39,16 @@ class _DeviceInfoState extends State<DeviceInfo> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
+        } //show loading icon
+        
+        else if (snapshot.hasError) {
           return Center(
             child: Text(
               'Error: ${snapshot.error}',
               style: const TextStyle(color: Colors.white),
             ),
           );
+
         } else if (snapshot.hasData) {
           final info = snapshot.data!;
           return Padding(
@@ -58,6 +61,10 @@ class _DeviceInfoState extends State<DeviceInfo> {
                 buildInfoRow("Device", info.device),
                 buildInfoRow("Android Version", info.version.release),
                 buildInfoRow("SDK", info.version.sdkInt.toString()),
+                buildInfoRow("Display",info.display),
+                buildInfoRow("Manufacturer",info.manufacturer),
+                buildInfoRow("Hardware",info.hardware),
+                buildInfoRow("Serial Number",info.serialNumber),
               ],
             ),
           );
