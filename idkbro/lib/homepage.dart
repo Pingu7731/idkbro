@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:idkbro/widget/deviceinfo.dart';
+import 'package:idkbro/widget/scanbarqr.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Homepage extends StatefulWidget {
@@ -48,7 +49,12 @@ class _HomepageState extends State<Homepage> {
                 style: ButtonStyle(
                   minimumSize: WidgetStatePropertyAll(const Size(200, 50)),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ScanBarQr()),
+                  );
+                },
                 child: const Text("Scan QR Code"),
               ),
               const SizedBox(height: 16),
@@ -99,7 +105,7 @@ class _HomepageState extends State<Homepage> {
       return;
     }
     setState(() {
-      returnedImage = File(userImage!.path);
+      returnedImage = File(userImage.path);
     });
   }
 
