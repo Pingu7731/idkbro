@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:idkbro/widget/deviceinfo.dart';
+import 'package:idkbro/widget/getlocation.dart';
 import 'package:idkbro/widget/scanbarqr.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -75,7 +76,14 @@ class _HomepageState extends State<Homepage> {
                 style: ButtonStyle(
                   minimumSize: WidgetStatePropertyAll(const Size(200, 50)),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Getlocation(),
+                    ),
+                  );
+                },
                 child: const Text("Get Location"),
               ),
               const SizedBox(height: 50),
