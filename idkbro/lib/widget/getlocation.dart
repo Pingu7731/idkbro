@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Getlocation extends StatefulWidget {
   const Getlocation({super.key});
@@ -8,6 +10,26 @@ class Getlocation extends StatefulWidget {
 }
 
 class _GetlocationState extends State<Getlocation> {
+  // Future<void> getLocationAndAddress() async {
+  //   Position position = await Geolocator.getCurrentPosition(
+  //     desiredAccuracy: LocationAccuracy.high,
+  //   );
+
+  //   print('經緯度：${position.latitude}, ${position.longitude}');
+
+  //   List<Placemark> placemarks = await placemarkFromCoordinates(
+  //     position.latitude,
+  //     position.longitude,
+  //   );
+
+  //   if (placemarks.isNotEmpty) {
+  //     Placemark place = placemarks.first;
+  //     String address = "${place.locality} ${place.subLocality} ${place.street}";
+  //     print('地址：$address');
+  //   }
+  // }
+
+  String currentLocation = "No Location";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,6 +46,23 @@ class _GetlocationState extends State<Getlocation> {
           onPressed: () {
             Navigator.pop(context);
           },
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              currentLocation,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 50,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );

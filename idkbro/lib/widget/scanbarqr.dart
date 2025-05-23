@@ -19,8 +19,6 @@ class _ScanBarQrState extends State<ScanBarQr> {
         isScanned = true;
         scannedData = barcode.rawValue!;
       });
-
-      Navigator.pop(context, scannedData);
     }
   }
 
@@ -54,14 +52,24 @@ class _ScanBarQrState extends State<ScanBarQr> {
           Expanded(
             flex: 1,
             child: Center(
-              child: Text(
-                scannedData,
-                style: const TextStyle(fontSize: 18, color: Colors.white),
+              child: GestureDetector(
+                onTap: removeCode,
+                child: Text(
+                  scannedData,
+                  style: const TextStyle(fontSize: 18, color: Colors.white),
+                ),
               ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  void removeCode() {
+    setState(() {
+      scannedData = 'Scan Again';
+      isScanned = false;
+    });
   }
 }

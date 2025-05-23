@@ -5,4 +5,3 @@ import 'package:idkbro/app.dart';
 void main() {
   runApp(const MainApp());
 }
-
