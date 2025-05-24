@@ -10,26 +10,49 @@ class Getlocation extends StatefulWidget {
 }
 
 class _GetlocationState extends State<Getlocation> {
-  // Future<void> getLocationAndAddress() async {
-  //   Position position = await Geolocator.getCurrentPosition(
-  //     desiredAccuracy: LocationAccuracy.high,
-  //   );
+  String currentCoordinate = "你在哪?";
+  String detailedAdrress = "我找不到你.";
 
-  //   print('經緯度：${position.latitude}, ${position.longitude}');
+  Future<void> getLocationAdd() async {
+    //need to have location permission to get location
+    LocationPermission permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      setState(() {
+        currentCoordinate = "why you don wan enable permission??";
+        detailedAdrress = "whyyyy";
+      });
+    }
+    //fetch location
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+        locationSettings: AndroidSettings(accuracy: LocationAccuracy.high),
+      );
+      setState(() {
+        currentCoordinate =
+            "經緯度 : ${position.latitude.toStringAsFixed(6)},${position.longitude.toStringAsFixed(6)}";
+      });
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
 
-  //   List<Placemark> placemarks = await placemarkFromCoordinates(
-  //     position.latitude,
-  //     position.longitude,
-  //   );
+      //change to detail location
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks.first;
+        setState(() {
+          detailedAdrress =
+              "${place.locality ?? ''} ${place.subLocality ?? ''} ${place.street ?? ''}";
+        });
+      }
+    } catch (e) {
+      setState(() {
+        currentCoordinate = "還是找不到你";
+        detailedAdrress = "還是找不到你";
+      });
+    }
+  }
 
-  //   if (placemarks.isNotEmpty) {
-  //     Placemark place = placemarks.first;
-  //     String address = "${place.locality} ${place.subLocality} ${place.street}";
-  //     print('地址：$address');
-  //   }
-  // }
-
-  String currentLocation = "No Location";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,16 +77,30 @@ class _GetlocationState extends State<Getlocation> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              currentLocation,
+              currentCoordinate,
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                fontSize: 50,
+                fontSize: 30,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 50),
+            Text(
+              detailedAdrress,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 30,
               ),
               textAlign: TextAlign.center,
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: getLocationAdd,
+        child: Icon(Icons.location_on),
       ),
     );
   }
