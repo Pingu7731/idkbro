@@ -5,6 +5,7 @@ import 'package:idkbro/widget/deviceinfo.dart';
 import 'package:idkbro/widget/getlocation.dart';
 import 'package:idkbro/widget/scanbarqr.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:idkbro/widget/pickgallery.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -31,7 +32,13 @@ class _HomepageState extends State<Homepage> {
                   minimumSize: WidgetStatePropertyAll(const Size(200, 50)),
                 ),
                 onPressed: () {
-                  pickimage();
+                  ImageUtils.pickimage(
+                    onImagepicked: (file) {
+                      setState(() {
+                        returnedImage = file;
+                      });
+                    },
+                  );
                 },
                 child: const Text("Pick From Gallery"),
               ),
@@ -41,7 +48,13 @@ class _HomepageState extends State<Homepage> {
                   minimumSize: WidgetStatePropertyAll(const Size(200, 50)),
                 ),
                 onPressed: () {
-                  pickFromCamera();
+                  ImageUtils.pickFromCamera(
+                    onImagePicked: (file) {
+                      setState(() {
+                        returnedImage = file;
+                      });
+                    },
+                  );
                 },
                 child: const Text("Pick From Camera"),
               ),
@@ -92,7 +105,15 @@ class _HomepageState extends State<Homepage> {
               //on tap will remove img
               returnedImage != null
                   ? GestureDetector(
-                    onTap: removeImg,
+                    onTap: () {
+                      ImageUtils.removeImage(
+                        onRemove: () {
+                          setState(() {
+                            returnedImage = null;
+                          });
+                        },
+                      );
+                    },
                     child: Image.file(returnedImage!, height: 200),
                   )
                   : //see isit null
@@ -102,32 +123,5 @@ class _HomepageState extends State<Homepage> {
         ),
       ),
     );
-  }
-
-  Future pickimage() async {
-    final userImage = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
-    );
-
-    if (userImage == null) {
-      return;
-    }
-    setState(() {
-      returnedImage = File(userImage.path);
-    });
-  }
-
-  Future pickFromCamera() async {
-    final userImage = await ImagePicker().pickImage(source: ImageSource.camera);
-
-    setState(() {
-      returnedImage = File(userImage!.path);
-    });
-  }
-
-  void removeImg() {
-    setState(() {
-      returnedImage = null;
-    });
   }
 }
