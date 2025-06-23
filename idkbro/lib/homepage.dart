@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:idkbro/widget/deviceinfo.dart';
 import 'package:idkbro/widget/getlocation.dart';
 import 'package:idkbro/widget/scanbarqr.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:idkbro/widget/pickgallery.dart';
 
 class Homepage extends StatefulWidget {

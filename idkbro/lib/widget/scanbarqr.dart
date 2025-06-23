@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class ScanBarQr extends StatefulWidget {
@@ -15,10 +16,12 @@ class _ScanBarQrState extends State<ScanBarQr> {
   void handleDetect(BarcodeCapture capture) {
     final barcode = capture.barcodes.first;
     if (!isScanned && barcode.rawValue != null) {
+      final code = barcode.rawValue;
       setState(() {
         isScanned = true;
-        scannedData = barcode.rawValue!;
+        scannedData = code!;
       });
+      sendCodeToServer(code!);
     }
   }
 
@@ -71,5 +74,20 @@ class _ScanBarQrState extends State<ScanBarQr> {
       scannedData = 'Scan Again';
       isScanned = false;
     });
+  }
+
+  Future<void> sendCodeToServer(String code) async {
+    final url = Uri.parse("");
+    // final url = Uri.parse("http://<ipv4>/php_api/scan.php");
+    try {
+      final response = await http.post(url, body: {'code': code});
+      if (response.statusCode == 200) {
+        print("Success : ${response.body}");
+      } else {
+        print("HTTP ERR: ${response.statusCode}");
+      }
+    } catch (e) {
+      print("Err Connection: $e");
+    }
   }
 }
