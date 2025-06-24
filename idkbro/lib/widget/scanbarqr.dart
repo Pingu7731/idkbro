@@ -92,14 +92,14 @@ class _ScanBarQrState extends State<ScanBarQr> {
       if (response.statusCode == 200) {
       } else {
         print("Http Error: ${response.statusCode}");
-        Fluttertoast.showToast(
-          msg: "HTTP Error : ${response.statusCode}",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          backgroundColor: Colors.white,
-          textColor: Colors.black38,
-          fontSize: 16,
-        );
+        // Fluttertoast.showToast(
+        //   msg: "HTTP Error : ${response.statusCode}",
+        //   toastLength: Toast.LENGTH_SHORT,
+        //   gravity: ToastGravity.CENTER,
+        //   backgroundColor: Colors.white,
+        //   textColor: Colors.black38,
+        //   fontSize: 16,
+        // );
       }
     } catch (e) {
       print("Err Connection: $e");
