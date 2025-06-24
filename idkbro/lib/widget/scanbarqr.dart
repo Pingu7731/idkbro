@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -77,14 +78,29 @@ class _ScanBarQrState extends State<ScanBarQr> {
   }
 
   Future<void> sendCodeToServer(String code) async {
-    final url = Uri.parse("");
+    final url = Uri.parse("http://192.168.208.61/php_api/scan.php");
     // final url = Uri.parse("http://<ipv4>/php_api/scan.php");
     try {
       final response = await http.post(url, body: {'code': code});
+      Fluttertoast.showToast(
+        msg: "Sent to Database!",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: Colors.white,
+        textColor: Colors.black,
+        fontSize: 16,
+      );
       if (response.statusCode == 200) {
-        print("Success : ${response.body}");
       } else {
-        print("HTTP ERR: ${response.statusCode}");
+        print("Http Error: ${response.statusCode}");
+        Fluttertoast.showToast(
+          msg: "HTTP Error : ${response.statusCode}",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          backgroundColor: Colors.white,
+          textColor: Colors.black38,
+          fontSize: 16,
+        );
       }
     } catch (e) {
       print("Err Connection: $e");
