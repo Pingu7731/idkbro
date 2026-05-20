@@ -78,7 +78,7 @@ class _ScanBarQrState extends State<ScanBarQr> {
   }
 
   Future<void> sendCodeToServer(String code) async {
-    final url = Uri.parse("http://<ipv4>/php_api/scan.php");
+    final url = Uri.parse("http://192.168.20.101/php_api/scan.php");
     try {
       final response = await http.post(url, body: {'code': code});
       Fluttertoast.showToast(
